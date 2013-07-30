@@ -1,0 +1,36 @@
+Name:                subspace
+Version:             0.1
+Synopsis:            peer to peer communication library
+Description:         todo
+License:             GPL
+License-file:        LICENSE
+Author:              Thomas Gatzweiler
+Build-Depends:       base
+Build-Type:          Simple
+Cabal-Version:       >= 1.8
+Stability:           Experimental
+
+library
+  exposed-modules:
+    Subspace.DHT.Network
+    Subspace.DHT.Node
+    Subspace.DHT.Protocol
+    Subspace.DHT.Crypto
+  build-depends:
+      network
+    , binary
+    , largeword
+    , bytestring
+    , random
+    , RSA
+    , base >= 4 && <= 5
+
+executable subspace-test
+  main-is: Subspace/Test.hs
+  build-depends:
+      subspace
+    , base
+    , binary
+    , largeword
+    , network
+    , bytestring
