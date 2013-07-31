@@ -30,7 +30,7 @@ Library
 
 Executable subspace-testrun
   Hs-Source-Dirs: src
-  Main-Is: subspace/Test.hs
+  Main-Is: Subspace/Test.hs
   Build-Depends:
       subspace
     , base
