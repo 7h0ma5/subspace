@@ -10,9 +10,7 @@ type NodeId = Word256
 
 data Node = Node { nodeId :: NodeId
                  , nodeAddr :: SockAddr }
-
-instance Eq Node where
-  (==) a b = (nodeId a) == (nodeId b)
+                 deriving Eq
 
 instance Show Node where
   show n = "(Node " ++ (show $ nodeId n) ++ ")"

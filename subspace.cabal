@@ -1,22 +1,25 @@
 Name:                subspace
 Version:             0.1
 Synopsis:            peer to peer communication library
-Description:         todo
-License:             GPL
-License-file:        LICENSE
+License:             GPL-3
+License-File:        LICENSE
 Author:              Thomas Gatzweiler
+Stability:           Experimental
+Copyright:           2013 Thomas Gatzweiler
+Homepage:            https://github.com/7h0ma5/subspace
+Bug-Reports:         https://github.com/7h0ma5/subspace/issues
 Build-Depends:       base
 Build-Type:          Simple
 Cabal-Version:       >= 1.8
-Stability:           Experimental
 
-library
-  exposed-modules:
+Library
+  Hs-Source-Dirs: src
+  Exposed-Modules:
     Subspace.DHT.Network
     Subspace.DHT.Node
     Subspace.DHT.Protocol
     Subspace.DHT.Crypto
-  build-depends:
+  Build-Depends:
       network
     , binary
     , largeword
@@ -25,12 +28,34 @@ library
     , RSA
     , base >= 4 && <= 5
 
-executable subspace-test
-  main-is: Subspace/Test.hs
-  build-depends:
+Executable subspace-testrun
+  Hs-Source-Dirs: src
+  Main-Is: subspace/Test.hs
+  Build-Depends:
       subspace
     , base
     , binary
     , largeword
     , network
     , bytestring
+
+Test-Suite subspace-tests
+  Type: exitcode-stdio-1.0
+  Hs-Source-Dirs: src tests
+  Main-Is: TestSuite.hs
+  Other-Modules:
+      Subspace.DHT.Node.Tests
+  Build-Depends:
+      subspace
+    , base
+    , binary
+    , largeword
+    , network
+    , bytestring
+    , test-framework
+    , test-framework-quickcheck2
+    , QuickCheck
+
+Source-Repository head
+  type: git
+  location: git://github.com/7h0ma5/subspace.git
