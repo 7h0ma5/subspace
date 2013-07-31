@@ -1,6 +1,6 @@
 module Subspace.DHT.Node.Tests (tests) where
 
-import Test.Framework
+import Test.Framework (Test, testGroup)
 import Test.QuickCheck
 import Test.Framework.Providers.QuickCheck2 (testProperty)
 
@@ -11,11 +11,26 @@ import Network.Socket
 
 tests :: Test
 tests = testGroup "Subspace.DHT.Node.Tests"
-    [ testProperty "binary preservation" binaryPreservation ]
+    [ testProperty "binary preservation" binaryPreservation
+    , testProperty "zero distance" zeroDistance ]
 
-binaryPreservation :: Word64 -> Word16 -> Word32 -> Bool
-binaryPreservation nodeId port addr = newNode == origNode
+instance (Arbitrary a, Arbitrary b) => Arbitrary (LargeKey a b) where
+  arbitrary = do
+    i1 <- arbitrary
+    i2 <- arbitrary
+    return (LargeKey i1 i2)
+
+instance Arbitrary Node where
+  arbitrary = do
+    nodeId <- arbitrary :: Gen Word256
+    port <- arbitrary :: Gen Word16
+    host <- arbitrary :: Gen Word32
+    return (Node nodeId (SockAddrInet (PortNum port) host))
+
+binaryPreservation :: Node -> Bool
+binaryPreservation origNode = newNode == origNode
    where newNode = decode bin :: Node
          bin = encode origNode
-         origNode = Node i (SockAddrInet (PortNum port) addr)
-         i = LargeKey nodeId (LargeKey nodeId (LargeKey nodeId nodeId))
+
+zeroDistance :: Node -> Bool
+zeroDistance node = nodeDistance node node == 0

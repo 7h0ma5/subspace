@@ -2,6 +2,7 @@ module Subspace.DHT.Node where
 
 import Network.Socket
 import Data.LargeWord
+import Data.Bits
 import Data.Binary
 import Data.Binary.Put
 import Data.Binary.Get
@@ -12,8 +13,11 @@ data Node = Node { nodeId :: NodeId
                  , nodeAddr :: SockAddr }
                  deriving Eq
 
+nodeDistance :: Node -> Node -> Word256
+nodeDistance a b = (nodeId a) `xor` (nodeId b)
+
 instance Show Node where
-  show n = "(Node " ++ (show $ nodeId n) ++ ")"
+  show n = "(Node " ++ show (nodeId n) ++ ")"
 
 instance Binary Node where
   put (Node id (SockAddrInet (PortNum port) addr)) = do

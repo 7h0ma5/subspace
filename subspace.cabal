@@ -54,7 +54,7 @@ Test-Suite subspace-tests
     , bytestring
     , test-framework
     , test-framework-quickcheck2
-    , QuickCheck
+    , QuickCheck < 2.6
 
 Source-Repository head
   type: git
