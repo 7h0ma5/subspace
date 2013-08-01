@@ -55,5 +55,4 @@ instance Binary Query where
       3 -> do
         node <- get :: Get Node
         return (SendNodes node)
-      _ ->
-        undefined
+        

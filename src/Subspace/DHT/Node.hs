@@ -1,32 +1,39 @@
 module Subspace.DHT.Node where
 
-import Network.Socket
-import Data.LargeWord
-import Data.Bits
 import Data.Binary
-import Data.Binary.Put
 import Data.Binary.Get
+import Data.Binary.Put
+import Data.Bits
+import Data.LargeWord
+import Network.Socket
 
 type NodeId = Word256
 
 data Node = Node { nodeId :: NodeId
                  , nodeAddr :: SockAddr }
-                 deriving Eq
+
+createNode :: NodeId -> SockAddr -> Node
+createNode id addr = Node { nodeId = id
+                          , nodeAddr = addr }
 
 nodeDistance :: Node -> Node -> Word256
 nodeDistance a b = (nodeId a) `xor` (nodeId b)
+
+instance Eq Node where
+  (==) a b = (nodeId a) == (nodeId b)
 
 instance Show Node where
   show n = "(Node " ++ show (nodeId n) ++ ")"
 
 instance Binary Node where
-  put (Node id (SockAddrInet (PortNum port) addr)) = do
-    putWord64be . hiHalf . hiHalf . hiHalf $ id
-    putWord64be . loHalf . hiHalf . hiHalf $ id
-    putWord64be . loHalf . hiHalf $ id
-    putWord64be . loHalf $ id
+  put node = do
+    putWord64be . hiHalf . hiHalf . hiHalf $ nodeId node
+    putWord64be . loHalf . hiHalf . hiHalf $ nodeId node
+    putWord64be . loHalf . hiHalf $ nodeId node
+    putWord64be . loHalf $ nodeId node
     putWord32be addr
     putWord16be port
+    where (SockAddrInet (PortNum port) addr) = nodeAddr node
 
   get = do
     w1 <- getWord64be
@@ -36,4 +43,4 @@ instance Binary Node where
     let id = LargeKey w4 (LargeKey w3 (LargeKey w2 w1))
     addr <- getWord32be
     port <- getWord16be
-    return (Node id (SockAddrInet (PortNum port) addr))
+    return (createNode id (SockAddrInet (PortNum port) addr))

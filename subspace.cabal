@@ -16,6 +16,7 @@ Library
   Hs-Source-Dirs: src
   Exposed-Modules:
     Subspace.DHT.Network
+    Subspace.DHT.Connection
     Subspace.DHT.Node
     Subspace.DHT.Protocol
     Subspace.DHT.Crypto

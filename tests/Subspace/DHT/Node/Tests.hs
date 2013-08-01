@@ -25,12 +25,11 @@ instance Arbitrary Node where
     nodeId <- arbitrary :: Gen Word256
     port <- arbitrary :: Gen Word16
     host <- arbitrary :: Gen Word32
-    return (Node nodeId (SockAddrInet (PortNum port) host))
+    return (createNode nodeId (SockAddrInet (PortNum port) host))
 
 binaryPreservation :: Node -> Bool
-binaryPreservation origNode = newNode == origNode
-   where newNode = decode bin :: Node
-         bin = encode origNode
+binaryPreservation origNode = origNode == newNode
+   where newNode = decode . encode $ origNode
 
 zeroDistance :: Node -> Bool
 zeroDistance node = nodeDistance node node == 0
