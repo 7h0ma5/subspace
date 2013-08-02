@@ -1,12 +1,18 @@
-module Subspace.DHT.Protocol where
+module Subspace.DHT.Protocol
+       ( Query(..)
+       , PingId
+       , encodeQuery
+       , decodeQuery
+       ) where
 
-import Subspace.DHT.Node
-import Network.Socket
-import Data.Word
-import Data.LargeWord
 import Data.Binary
-import Data.Binary.Put
 import Data.Binary.Get
+import Data.Binary.Put
+import Data.ByteString.Lazy
+import Data.LargeWord
+import Data.Word
+import Network.Socket
+import Subspace.DHT.Node
 
 type PingId = Word64
 
@@ -55,4 +61,14 @@ instance Binary Query where
       3 -> do
         node <- get :: Get Node
         return (SendNodes node)
-        
+      _ ->
+        fail "invalid query type"
+
+encodeQuery :: Query -> ByteString
+encodeQuery query = encode query
+
+decodeQuery :: ByteString -> Maybe Query
+decodeQuery bstr =
+  case decodeOrFail bstr of
+    Left _ -> Nothing
+    Right (_, _, q) -> Just q

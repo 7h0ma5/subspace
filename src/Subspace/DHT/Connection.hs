@@ -1,9 +1,11 @@
-module Subspace.DHT.Connection where
+module Subspace.DHT.Connection
+       ( Connection
+       , bootstrapConnection
+       , runConnection ) where
 
 import Control.Exception
 import Control.Monad
 import Data.Binary
-import Data.Binary.Get
 import Network.Socket
 import Subspace.DHT.Network
 import Subspace.DHT.Node
@@ -22,5 +24,6 @@ runConnection port conn = do
   sock <- openPort (PortNum port)
   forever $ do
     (pack, addr) <- recvPacket sock 512
-    let q = decode pack :: Query
+    let q = decodeQuery pack
+    print q
     return ()
