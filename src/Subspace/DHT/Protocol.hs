@@ -13,13 +13,7 @@ import Data.LargeWord
 import Data.Word
 import Network.Socket
 import Subspace.DHT.Node
-
-type PingId = Word64
-
-data Query = Ping Node PingId
-           | Pong Node PingId
-           | GetNodes Node
-           | SendNodes Node
+import Subspace.DHT.Types
 
 instance Show Query where
   show (Ping node id) = "(Ping " ++ show id ++ " from " ++ show node ++ ")"

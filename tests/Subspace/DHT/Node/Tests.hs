@@ -1,13 +1,14 @@
 module Subspace.DHT.Node.Tests (tests) where
 
 import Test.Framework (Test, testGroup)
-import Test.QuickCheck
 import Test.Framework.Providers.QuickCheck2 (testProperty)
+import Test.QuickCheck
 
-import Subspace.DHT.Node
 import Data.Binary
 import Data.LargeWord
 import Network.Socket
+import Subspace.DHT.Node
+import Subspace.DHT.Types
 
 tests :: Test
 tests = testGroup "Subspace.DHT.Node.Tests"

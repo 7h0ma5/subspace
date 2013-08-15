@@ -1,6 +1,6 @@
 module Subspace.DHT.Crypto where
 
-import Subspace.DHT.Node (NodeId)
+import Subspace.DHT.Types
 
 generateNodeId :: NodeId
 generateNodeId = undefined

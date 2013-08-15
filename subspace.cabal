@@ -15,8 +15,9 @@ Cabal-Version:       >= 1.8
 Library
   Hs-Source-Dirs: src
   Exposed-Modules:
+    Subspace.DHT.Types
     Subspace.DHT.Network
-    Subspace.DHT.Connection
+    Subspace.DHT.State
     Subspace.DHT.Node
     Subspace.DHT.Protocol
     Subspace.DHT.Crypto
@@ -25,6 +26,7 @@ Library
     , binary >= 0.7
     , largeword
     , bytestring
+    , mtl
     , base >= 4 && <= 5
 
 Executable subspace-testrun
@@ -37,6 +39,7 @@ Executable subspace-testrun
     , largeword
     , network
     , bytestring
+    , mtl
 
 Test-Suite subspace-tests
   Type: exitcode-stdio-1.0
@@ -51,6 +54,7 @@ Test-Suite subspace-tests
     , largeword
     , network
     , bytestring
+    , mtl
     , test-framework
     , test-framework-quickcheck2
     , QuickCheck < 2.6
