@@ -8,7 +8,6 @@ import Data.Binary
 import Data.LargeWord
 import Network.Socket
 import Subspace.DHT.Node
-import Subspace.DHT.Types
 
 tests :: Test
 tests = testGroup "Subspace.DHT.Node.Tests"

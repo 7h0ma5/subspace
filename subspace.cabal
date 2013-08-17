@@ -15,7 +15,6 @@ Cabal-Version:       >= 1.8
 Library
   Hs-Source-Dirs: src
   Exposed-Modules:
-    Subspace.DHT.Types
     Subspace.DHT.Network
     Subspace.DHT.State
     Subspace.DHT.Node
@@ -29,9 +28,9 @@ Library
     , mtl
     , base >= 4 && <= 5
 
-Executable subspace-testrun
+Executable subspace
   Hs-Source-Dirs: src
-  Main-Is: Subspace/Test.hs
+  Main-Is: Subspace/Main.hs
   Build-Depends:
       subspace
     , base

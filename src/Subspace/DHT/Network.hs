@@ -10,7 +10,11 @@ import Network.Socket.ByteString (recvFrom, sendAllTo)
 import Data.ByteString as BS
 import Data.ByteString.Lazy as LBS
 
-data SockHandle = SockHandle { pSocket :: Socket, pNumber :: PortNumber }
+data SockHandle = SockHandle { pSocket :: Socket
+                             , pNumber :: PortNumber }
+
+instance Show SockHandle where
+  show handle = "(SockHandle " ++ show (pNumber handle) ++ ")"
 
 -- | open a socket on the specified port
 openPort :: PortNumber -> IO SockHandle

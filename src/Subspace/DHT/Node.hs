@@ -6,14 +6,14 @@ import Data.Binary.Put
 import Data.Bits
 import Data.LargeWord
 import Network.Socket
-import Subspace.DHT.Types
 
-createNode :: NodeId -> SockAddr -> Node
-createNode id addr = Node { nodeId = id
-                          , nodeAddr = addr }
+type NodeId = Word256
 
-nodeDistance :: Node -> Node -> Word256
-nodeDistance a b = (nodeId a) `xor` (nodeId b)
+data Node = Node { nodeId :: NodeId
+                 , nodeAddr :: SockAddr }
+
+instance Show Node where
+  show n = "(Node " ++ show (nodeId n) ++ ")"
 
 instance Eq Node where
   (==) a b = (nodeId a) == (nodeId b)
@@ -37,3 +37,10 @@ instance Binary Node where
     addr <- getWord32be
     port <- getWord16be
     return (createNode id (SockAddrInet (PortNum port) addr))
+
+createNode :: NodeId -> SockAddr -> Node
+createNode id addr = Node { nodeId = id
+                          , nodeAddr = addr }
+
+nodeDistance :: Node -> Node -> Word256
+nodeDistance a b = (nodeId a) `xor` (nodeId b)
